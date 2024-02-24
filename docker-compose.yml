@@ -1,0 +1,53 @@
+version: "3.8"
+
+services:
+  postgresdb:
+    image: postgres:latest
+    environment:
+      - POSTGRES_DB=mydatabase
+      - POSTGRES_USER=myuser
+      - POSTGRES_PASSWORD=mypassword
+
+    ports:
+      - "5432:5432"
+    volumes:
+      - db:/var/lib/postgresql/data
+      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@example.com
+      - PGADMIN_DEFAULT_PASSWORD=adminpassword
+    ports:
+      - "8081:80"
+    depends_on:
+      - postgresdb
+
+  back:
+    build: ./quizz-back
+    ports:
+      - "3000:3000"
+    environment:
+      - DB_HOST=postgresdb
+      - DB_USER=myuser
+      - DB_PASSWORD=mypassword
+      - DB_NAME=mydb
+      - DB_PORT=5432
+    stdin_open: true
+    tty: true
+    volumes:
+      - ./back/project-name:/usr/src/app
+
+  front:
+    build: ./quizz-front
+    restart: always
+    ports:
+      - "8080:5173"
+    command: "npm run start:dev"
+    volumes:
+      - ./front/project-name:/usr/src/app
+
+
+volumes:
+  db:
