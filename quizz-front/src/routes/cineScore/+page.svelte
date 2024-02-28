@@ -1,35 +1,30 @@
 <script lang="ts">
-    const postTest = () => {
-        fetch("http://localhost:3000/test", {
-            method: "POST",
-            mode: "cors",
-            headers: {
-                "Content-Type": "application/json",
-                "Origin": "http://localhost:5173" 
-            },
-            body: JSON.stringify(new String("Hello World !")),
-        })
-            .then((response) => response.json())
-            .then((data) => {
-                console.log("backend answer:", data);
-            })
-            .catch((error) => {
-                console.error("POST request error:", error);
-            });
-    };
+    import { score } from "../cineQuizz/store";
+    import { cineQuest } from "../cineQuizz/store";
 
-    postTest();
+    function home() {
+        location.href = 'http://localhost:5173/home';
+    }
+
+
+
 </script>
 
-<h1>login</h1>
 
-<div id="userlog">
-    <input type="username" id="username" placeholder="username" />
-    <input type="password" id="password" placeholder="password" />
-    <a href="/home"><input type="button" id="submit" value="login" /></a>
-</div>
+
+
+<h1>Final Score</h1>
+
+<!-- $ pour la valeur de l'objet -->
+
+<h2>{$score}</h2>
+
+
+<button id="viewHome" on:click={home}>Home</button>
+
 
 <style>
+
     :global(body) {
         background: linear-gradient(
             to right,
@@ -39,40 +34,17 @@
         );
     }
 
-    #userlog {
-        display: flex;
-        flex-direction: column;
-        width: 200px;
-        position: relative;
-        top: 150px;
-        margin-left: auto;
-        margin-right: auto;
-        background-color: white;
-        width: 300px;
-        border-radius: 20px;
-        -webkit-box-shadow:
-            0px 10px 13px -7px #000000,
-            5px 5px 15px 5px rgba(0, 0, 0, 0);
-        box-shadow:
-            0px 10px 13px -7px #000000,
-            5px 5px 15px 5px rgba(0, 0, 0, 0);
-    }
-
-    #userlog > * {
-        margin: 20px;
-        margin-right: auto;
-        margin-left: auto;
-    }
-
-    h1 {
-        color: white;
+    h1{
+        text-align: center;
+        color:aliceblue;
         font-family: "JetBrains Mono", monospace;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+        font-weight: 300;
     }
 
-    #submit {
+
+    #viewHome{
+        display: flex;
+        justify-content: center;
         align-items: center;
         appearance: none;
         background-color: #fcfcfd;
@@ -109,7 +81,7 @@
         margin: 20px;
     }
 
-    #submit:focus {
+    #viewHome:focus {
         box-shadow:
             #d6d6e7 0 0 0 1.5px inset,
             rgba(45, 35, 66, 0.4) 0 2px 4px,
@@ -117,7 +89,7 @@
             #d6d6e7 0 -3px 0 inset;
     }
 
-    #submit:hover {
+    #viewHome:hover {
         box-shadow:
             rgba(45, 35, 66, 0.4) 0 4px 8px,
             rgba(45, 35, 66, 0.3) 0 7px 13px -3px,
@@ -125,8 +97,22 @@
         transform: translateY(-2px);
     }
 
-    #submit > *:active {
+    #viewHome:active {
         box-shadow: #d6d6e7 0 3px 7px inset;
         transform: translateY(2px);
     }
+
+    h2{
+        text-align: center;
+        color:aliceblue;
+        font-family: "JetBrains Mono", monospace;
+        font-weight: 300;
+        position: relative;
+        top: 300px;
+
+    }
+
+
+
+
 </style>

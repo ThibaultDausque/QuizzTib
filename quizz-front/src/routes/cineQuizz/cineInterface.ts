@@ -9,7 +9,7 @@ export const quest: questions[] = [
     // question 1
     { question : "Quel acteur a interprété le rôle principal dans le film 'Forrest Gump' ?", answers: ["Tom Hanks", "Brad Pitt"], correctAnswer: "Tom Hanks"},
     // question 2
-    { question : "Dans quel film apparaît le personnage de Dark Vador pour la première fois ?", answers: ["Star Wars: Episode IV - Un Nouvel Espoir", "Star Wars: Episode V - L'Empire contre-attaque"], correctAnswer: "L'Empire contre-attaque"},
+    { question : "Dans quel film apparaît le personnage de Dark Vador pour la première fois ?", answers: ["Star Wars: Episode IV - Un Nouvel Espoir", "Star Wars: Episode V - L'Empire contre-attaque"], correctAnswer: "Star Wars: Episode V - L'Empire contre-attaque"},
     // question 3
     { question : "Quel réalisateur a dirigé le film de science-fiction 'Inception' sorti en 2010 ?", answers: ["Christpher Nolan", "Thibault Dausque"], correctAnswer: "Thibault Dausque"},
     // question 4

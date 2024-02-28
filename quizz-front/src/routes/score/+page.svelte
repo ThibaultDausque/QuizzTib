@@ -1,6 +1,6 @@
 <h1>SCORE</h1>
 
-<table id="score">
+<table class="score">
     <thead>
         <tr>
             <th>Cinema</th>
@@ -8,8 +8,8 @@
         </tr>
     </thead>
     <tr>
-        <td></td>
-        <td></td>
+        <td>score 1</td>
+        <td>score 2</td>
     </tr>
 </table>
 
@@ -31,6 +31,26 @@
             rgba(9, 9, 121, 1) 0%,
             rgba(0, 212, 255, 1) 100%
         );
+    }
+
+    table.score {
+        border: 3px solid white;
+        text-align: left;
+        border-collapse: collapse;
+        width: 50%;
+    }
+
+    table.score th {
+        color: white;
+        font-family: "JetBrains Mono", monospace;
+        font-weight: 300;
+    }
+
+    table{
+        margin-left: auto;
+        margin-right: auto;
+        position: relative;
+        top: 200px;
     }
 
 

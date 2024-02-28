@@ -10,21 +10,17 @@
         location.href = 'http://localhost:5173/score';
     }
 
-
-
 </script>
 
-
-
 <div id="header">
-    <h1>HOME</h1>
+    <h1>QUIZZ</h1>
     <p>Welcome ... !</p>
-    <input type="button" id="score" value="score" on:click={score}/>
+    <input type="button" id="score" value="score" />
 </div>
 
 <div id="quizz">
     <input type="button" id="cinema" value="cinema" on:click={cineQuizz}/>
-    <input type="button" id="videogame" value="video games" />
+    <input type="button" id="videogame" value="video games" on:click={score}/>
 </div>
 
 <style>

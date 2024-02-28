@@ -35,18 +35,19 @@ services:
       - DB_NAME=mydb
       - DB_PORT=5432
     stdin_open: true
+    command: "npm run start:dev"
     tty: true
     volumes:
-      - ./back/project-name:/usr/src/app
+      - ./quizz-back/src/:/app/src/
 
   front:
     build: ./quizz-front
     restart: always
     ports:
-      - "8080:5173"
-    command: "npm run start:dev"
+      - "5173:5173"
+    command: "npm run dev -- --host"
     volumes:
-      - ./front/project-name:/usr/src/app
+      - ./quizz-front/src:/app/src
 
 
 volumes:
