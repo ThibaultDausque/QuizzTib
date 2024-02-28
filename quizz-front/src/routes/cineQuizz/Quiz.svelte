@@ -1,29 +1,92 @@
 <script lang="ts">
-	//retourner à la page du quizz cinéma
-	function cineQuizz() {
-		location.href = "http://localhost:5173/cineQuizz";
+	import { quest } from "./cineInterface";
+	import { score } from "./store";
+	import { cineQuest } from "./store";
+
+	export let n = 0;
+
+	function shuffle<T>(array: T[]) {
+		let currentIndex = array.length,
+			randomIndex;
+
+		// While there remain elements to shuffle.
+		while (currentIndex > 0) {
+			// Pick a remaining element.
+			randomIndex = Math.floor(Math.random() * currentIndex);
+			currentIndex--;
+
+			// And swap it with the current element.
+			[array[currentIndex], array[randomIndex]] = [
+				array[randomIndex],
+				array[currentIndex],
+			];
+		}
+
+		return array;
 	}
 
-	//retourner à la page des scores
-	function score() {
-		location.href = "http://localhost:5173/score";
+	enum AnswerStates {
+		untouched,
+		rightAnswered,
+		badAnswered,
+	}
+
+	let state: AnswerStates = AnswerStates.untouched;
+
+	function buttonAnswerClicked(userChoice: string) {
+		if (state !== AnswerStates.untouched) {
+			return;
+		}
+		if (isAnswerCorrect(userChoice)) {
+			score.update((x) => x + 1);
+			state = AnswerStates.rightAnswered;
+		} else {
+			state = AnswerStates.badAnswered;
+		}
+	}
+
+	function isAnswerCorrect(answer: string) {
+		return answer === quest[n].correctAnswer;
+	}
+
+	function nextQuestion() {
+		if ($cineQuest < 10) {
+			cineQuest.update((i) => i + 1);
+			n++;
+		}
+
+		state = AnswerStates.untouched;
+	}
+
+	function prevQuestion() {
+		if ($cineQuest > 1) {
+			cineQuest.update((i) => i - 1);
+			n--;
+		}
+		state = AnswerStates.untouched;
 	}
 </script>
 
-<div id="header">
-	<h1>QUIZZ</h1>
-	<p>Welcome ... !</p>
-	<input type="button" id="score" value="score" />
+<p id="question">{quest[n].question}</p>
+<br />
+<div class="answers">
+	{#each shuffle(quest[n].answers) as answer}
+		<button
+			class:right-answer={state !== AnswerStates.untouched &&
+				isAnswerCorrect(answer)}
+			class:bad-answer={state === AnswerStates.badAnswered &&
+				!isAnswerCorrect(answer)}
+			on:click={() => buttonAnswerClicked(answer)}>{answer}</button
+		>
+	{/each}
 </div>
 
-<div id="quizz">
-	<input type="button" id="cinema" value="cinema" on:click={cineQuizz} />
-	<input type="button" id="videogame" value="video games" on:click={score} />
+<div id="arrow">
+	<button id="prev" on:click={prevQuestion}>prev</button>
+	<button id="next" on:click={nextQuestion}>next</button>
 </div>
 
 <style>
-	@import url("https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap");
-
 	:global(body) {
 		background: linear-gradient(
 			to right,
@@ -33,40 +96,14 @@
 		);
 	}
 
-	#header {
-		position: relative;
-		left: 50px;
-		width: 100px;
-	}
-
-	h1 {
-		margin-left: auto;
+	.answers {
 		margin-right: auto;
-		font-family: "JetBrains Mono", monospace;
-		font-weight: 300;
-	}
-
-	#header > p {
-		font-family: "JetBrains Mono", monospace;
-		font-weight: 300;
-		position: relative;
-		top: 50px;
-	}
-
-	#header > * {
-		color: white;
-	}
-
-	#quizz {
 		margin-left: auto;
-		margin-right: auto;
-		display: flex;
-		align-items: center;
-		justify-content: center;
+		text-align: center;
 		position: relative;
 		top: 100px;
 		background-color: white;
-		width: 500px;
+		width: 700px;
 		height: 300px;
 		border-radius: 20px;
 		-webkit-box-shadow:
@@ -77,7 +114,11 @@
 			5px 5px 15px 5px rgba(0, 0, 0, 0);
 	}
 
-	#quizz > * {
+	.answers > * {
+		position: relative;
+		top: 100px;
+		margin: 20px;
+
 		align-items: center;
 		appearance: none;
 		background-color: #fcfcfd;
@@ -114,7 +155,7 @@
 		margin: 20px;
 	}
 
-	#quizz > *:focus {
+	.answers > *:focus {
 		box-shadow:
 			#d6d6e7 0 0 0 1.5px inset,
 			rgba(45, 35, 66, 0.4) 0 2px 4px,
@@ -122,7 +163,7 @@
 			#d6d6e7 0 -3px 0 inset;
 	}
 
-	#quizz > *:hover {
+	.answers > *:hover {
 		box-shadow:
 			rgba(45, 35, 66, 0.4) 0 4px 8px,
 			rgba(45, 35, 66, 0.3) 0 7px 13px -3px,
@@ -130,16 +171,27 @@
 		transform: translateY(-2px);
 	}
 
-	#quizz > *:active {
+	.answers > *:active {
 		box-shadow: #d6d6e7 0 3px 7px inset;
 		transform: translateY(2px);
 	}
 
-	#score {
-		position: absolute;
-		top: 40px;
-		right: 30px;
+	.bad-answer {
+		background-color: red;
+	}
 
+	.right-answer {
+		background-color: green;
+	}
+
+	#arrow {
+		position: relative;
+		text-align: center;
+		top: 150px;
+	}
+
+	#arrow > * {
+		align-items: center;
 		appearance: none;
 		background-color: #fcfcfd;
 		border-radius: 4px;
@@ -175,7 +227,7 @@
 		margin: 20px;
 	}
 
-	#score:focus {
+	#arrow > *:focus {
 		box-shadow:
 			#d6d6e7 0 0 0 1.5px inset,
 			rgba(45, 35, 66, 0.4) 0 2px 4px,
@@ -183,7 +235,7 @@
 			#d6d6e7 0 -3px 0 inset;
 	}
 
-	#score:hover {
+	#arrow > *:hover {
 		box-shadow:
 			rgba(45, 35, 66, 0.4) 0 4px 8px,
 			rgba(45, 35, 66, 0.3) 0 7px 13px -3px,
@@ -191,8 +243,26 @@
 		transform: translateY(-2px);
 	}
 
-	#score:active {
+	#arrow > *:active {
 		box-shadow: #d6d6e7 0 3px 7px inset;
 		transform: translateY(2px);
+	}
+
+	#question {
+		text-align: center;
+		position: relative;
+		top: 100px;
+		font-family: "JetBrains Mono", monospace;
+		font-weight: 300;
+		color: white;
+	}
+
+	h2 {
+		position: relative;
+		top: 100px;
+		text-align: center;
+		color: white;
+		font-family: "JetBrains Mono", monospace;
+		font-weight: 300;
 	}
 </style>
