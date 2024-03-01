@@ -1,5 +1,6 @@
 <script lang="ts">
-	import { quest } from "./cineInterface";
+	import ButtonScore from "./buttonScore.svelte";
+import { quest } from "./cineInterface";
 	import { score } from "./store";
 	import { cineQuest } from "./store";
 
@@ -76,14 +77,16 @@
 				isAnswerCorrect(answer)}
 			class:bad-answer={state === AnswerStates.badAnswered &&
 				!isAnswerCorrect(answer)}
-			on:click={() => buttonAnswerClicked(answer)}>{answer}</button
-		>
+			on:click={() => buttonAnswerClicked(answer)}>{answer}</button >
 	{/each}
 </div>
 
 <div id="arrow">
 	<button id="prev" on:click={prevQuestion}>prev</button>
 	<button id="next" on:click={nextQuestion}>next</button>
+	{#if $cineQuest === 10}
+	<ButtonScore/>
+	{/if}
 </div>
 
 <style>

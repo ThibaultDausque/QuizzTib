@@ -1,12 +1,21 @@
 <script lang="ts">
-    function score() {
+    import { page } from "$app/stores";
+    import Quiz from "./Quiz.svelte";
+    import { score } from "./store";
 
-        location.href = 'http://localhost:5173/cineScore';
+    let showcontent = false;
+    function finalScore() {
+        return alert("YOUR SCORE =" + ' ' + $score);
+
+        
     }
 </script>
 
 
-<button id="viewScore" on:click={score}>Score</button>
+<button id="viewScore" on:click={finalScore}>Score</button>
+
+
+
 
 <style>
 
@@ -66,6 +75,11 @@
     #viewScore:active {
         box-shadow: #d6d6e7 0 3px 7px inset;
         transform: translateY(2px);
+    }
+
+    p{
+        font-family: "JetBrains Mono", monospace;
+		font-weight: 300;
     }
 
 

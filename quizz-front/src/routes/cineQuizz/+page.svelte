@@ -1,5 +1,6 @@
 <script lang="ts">
 	import Quiz from "./Quiz.svelte";
+    import ButtonScore from "./buttonScore.svelte";
 	import { score } from "./store";
 </script>
 
@@ -10,6 +11,7 @@
 </div>
 
 <Quiz />
+
 
 <div id="container"></div>
 

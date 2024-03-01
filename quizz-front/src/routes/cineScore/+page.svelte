@@ -2,6 +2,7 @@
     import { score } from "../cineQuizz/store";
     import { cineQuest } from "../cineQuizz/store";
 
+
     function home() {
         location.href = 'http://localhost:5173/home';
     }
@@ -16,7 +17,6 @@
 <h1>Final Score</h1>
 
 <!-- $ pour la valeur de l'objet -->
-
 <h2>{$score}</h2>
 
 
